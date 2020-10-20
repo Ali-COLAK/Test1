@@ -1,0 +1,105 @@
+#include <SoftwareSerial.h>
+SoftwareSerial kumanda = SoftwareSerial(2,3);
+int yPin = A1; 
+int xPin = A2; 
+ 
+int xPozisyonu = 0;
+int yPozisyonu = 0;
+int butonDurum = 0;
+int derecex;
+int derecey; 
+void setup() {
+Serial.begin(9600);
+pinMode(xPin, INPUT);
+pinMode(yPin, INPUT);
+
+pinMode(2, INPUT);
+pinMode(3, OUTPUT);
+kumanda.begin(9600);
+ 
+ 
+}
+ 
+void loop() 
+{ 
+xPozisyonu = analogRead(xPin);
+derecex = map(xPozisyonu, 0,1023,0,180);
+yPozisyonu = analogRead(yPin);
+derecey = map(yPozisyonu, 0,1023,0,180);
+//Serial.print(derecex);
+//Serial.print("*");
+//Serial.println(derecey);
+if(derecex>=90 && derecex<=98 && derecey>=86 && derecey<=94)
+{
+
+Serial.println("dur");
+kumanda.write('S');
+}
+else if(derecex>90 && derecex<98 && derecey<86)
+{
+Serial.println("ileri"); 
+kumanda.write('F');
+}
+else if(derecex<90 && derecey>86 && derecey<94)
+{
+Serial.println("sol"); 
+kumanda.write('L');
+}
+else if(derecex>98 && derecey>86 && derecey<94)
+{
+Serial.println("sag"); 
+kumanda.write('R');
+}
+else if(derecex>98 && derecey<86)
+{
+Serial.println("sag ileri");
+kumanda.write('F'); 
+}
+else if(derecex<90 && derecey<86)
+{
+Serial.println("sol ileri"); 
+kumanda.write('F');
+}
+else if(derecex>90 && derecex<98 && derecey>94)
+{
+Serial.println("geri"); 
+kumanda.write('B');
+}
+else if(derecex>98 && derecey>94)
+{
+Serial.println("sag geri"); 
+kumanda.write('B');
+}
+else if(derecex<90 && derecey>94)
+{
+Serial.println("sol geri"); 
+kumanda.write('B');
+}
+/*
+ if((derecey < 90) && (derecex < 135) && (derecex > 45))
+{
+  Serial.write("b");
+}
+ else if((derecey < 180) && (derecey > 98) && (derecex < 135) && (derecex>45))
+{
+  Serial.write("a");
+}
+if((derecex < 86) && (derecey > 45) && (derecey < 145))
+{
+  Serial.write("d");
+}
+else if((derecex < 180) && (derecex > 94) && (derecey > 45) && (derecey < 145))
+{
+  Serial.write("c");
+} 
+else if((derecex < 94) && (derecex > 86) && (derecey > 86) && (derecey < 94))
+{
+  Serial.write("e");
+}
+
+
+ */
+
+ 
+delay(200);
+}
